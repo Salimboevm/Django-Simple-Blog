@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import dotenv
 import os
 from pathlib import Path
 
+dotenv.load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY_ENV')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ('127.0.0.1',)
 
@@ -94,9 +96,9 @@ WSGI_APPLICATION = 'BlogPetProject.wsgi.application'
 #os.environ.get('DB_PASS')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pet_blog',
-        'USER': 'postgres',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASS'),
         'HOST': 'localhost',
         'PORT': '5432',
@@ -137,9 +139,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static')
+#]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = '/media/'
 
